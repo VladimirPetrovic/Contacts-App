@@ -1,14 +1,15 @@
 <template>
   <div>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
+    <div class="list-group">
+      <router-link
+        class="list-group-item list-group-item-action"
+        tag="button"
+        exact-active-class="active"
         v-for="(contact, key) in contacts"
         :key="key"
-      >
-        {{ contact.name }}
-      </li>
-    </ul>
+        :to="{ name: 'contact-details', params: { id: contact.id }}"
+      >{{ contact.name }}</router-link>
+    </div>
   </div>
 </template>
 
