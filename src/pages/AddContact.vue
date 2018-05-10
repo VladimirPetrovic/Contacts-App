@@ -24,8 +24,25 @@ export default {
   },
   methods: {
     addContact() {
-      contactsService.addContact(this.contact).then(() => {
-        this.$router.push('/contacts')
+      if (this.$route.params.id) {
+        contactsService.updateContact(this.contact).then(() => {
+          this.$router.push({name: 'contacts-list'})
+        }).catch(error => {
+          console.error(error)
+        })
+      } else {
+        contactsService.addContact(this.contact).then(() => {
+          this.$router.push({name: 'contacts-list'})
+        }).catch(error => {
+          console.error(error)
+        })
+      }
+    }
+  },
+  created() {
+    if (this.$route.params.id) {
+      contactsService.getContact(this.$route.params.id).then(response => {
+        this.contact = response.data
       }).catch(error => {
         console.error(error)
       })

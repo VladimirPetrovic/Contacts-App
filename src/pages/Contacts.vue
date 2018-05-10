@@ -2,10 +2,10 @@
   <div class="container mt-4">
     <div class="row">
       <div class="col">
-        <ContactList :contacts="contacts" />
+        <contact-list-form :contacts="contacts" />
       </div>
       <div class="col-8">
-        <ContactDetails :contact="routeContact" />
+        <contact-details :contact="routeContact" @onDelete="onDelete"/>
       </div>
     </div>
   </div>
@@ -13,30 +13,36 @@
 
 <script>
 import { contactsService } from '../utils/ContactsService.js'
-import ContactList from '../components/ContactList.vue'
+import ContactListForm from '../components/ContactListForm.vue'
 import ContactDetails from '../components/ContactDetails.vue'
 
-  export default {
-    components: {
-      ContactList,
-      ContactDetails
-    },
-    data() {
-      return {
-        contacts: []
-      }
-    },
-    created() {
-      contactsService.getContacts().then(response => {
-        this.contacts = response.data
-      }).catch(error => {
-        console.error(error)
-      })
-    },
-    computed: {
-      routeContact() {
-        return this.contacts.find(contact => contact.id == this.$route.params.id)
-      }
+export default {
+  components: {
+    ContactListForm,
+    ContactDetails
+  },
+  data() {
+    return {
+      contacts: []
+    }
+  },
+  created() {
+    contactsService.getContacts().then(response => {
+      this.contacts = response.data
+    }).catch(error => {
+      console.error(error)
+    })
+  },
+  computed: {
+    routeContact() {
+      return this.contacts.find(contact => contact.id == this.$route.params.id)
+    }
+  },
+  methods: {
+    onDelete(id) {
+      let index = this.contacts.findIndex(contact => contact.id == id)
+      this.contacts.splice(index, 1)
     }
   }
+}
 </script>

@@ -10,6 +10,15 @@ export default class ContactsService {
     addContact(contact) {
         return axios.post('contacts', contact)
     }
+    getContact(id) {
+        return axios.get('contacts/'+ id)
+    }
+    deleteContact(id) {
+        return axios.delete('contacts/' + id)
+    }
+    updateContact(contact) {
+        return axios.put('contacts/' + contact.id, contact)
+    }
 }
 
 export const contactsService = new ContactsService();
