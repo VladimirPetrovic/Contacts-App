@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { contactsService } from '../utils/ContactsService.js'
 import ContactList from '../components/ContactList.vue'
 import ContactDetails from '../components/ContactDetails.vue'
 
@@ -23,12 +23,15 @@ import ContactDetails from '../components/ContactDetails.vue'
     },
     data() {
       return {
-        contacts: [
-          { id: 1, name: 'John Doe', email: 'johndoe@example.com', number: '555-12345' },
-          { id: 2, name: 'Pera Peric', email: 'peraperic@example.com', number: '555-54321' },
-          { id: 3, name: 'Nenad Vujicic', email: 'nenad.v@example.com', number: '555-67890' }
-        ]
+        contacts: []
       }
+    },
+    created() {
+      contactsService.getContacts().then(response => {
+        this.contacts = response.data
+      }).catch(error => {
+        console.error(error)
+      })
     },
     computed: {
       routeContact() {

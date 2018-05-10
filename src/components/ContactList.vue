@@ -8,15 +8,15 @@
         v-for="(contact, key) in contacts"
         :key="key"
         :to="{ name: 'contact-details', params: { id: contact.id }}"
-      >{{ contact.name }}</router-link>
+      >
+        {{ contact.first_name }}
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: [
-    'contacts'
-  ]
+  props: ['contacts']
 }
 </script>
