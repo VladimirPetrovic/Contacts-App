@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="col-6 mt-2" @submit.prevent="addContact()">
+    <form class="col-6 mt-2" @submit.prevent="manageContact()">
       <div class="form-group">
         <label for="firstName">First Name</label>
         <input type="text" v-model="contact.first_name" class="form-control" id="firstName">
@@ -28,8 +28,8 @@
 export default {
     props: ['contact'],
     methods: {
-        addContact() {
-            this.$emit('addContact')
+        manageContact() {
+            this.$emit('manageContact')
         }
     }
 }

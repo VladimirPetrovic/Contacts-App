@@ -1,6 +1,6 @@
 <template>
   <div>
-    <contact-form :contact="contact" @addContact="addContact"/>
+    <contact-form :contact="contact" @manageContact="manageContact"/>
   </div>
 </template>
 
@@ -23,20 +23,26 @@ export default {
     }
   },
   methods: {
-    addContact() {
+    manageContact() {
       if (this.$route.params.id) {
-        contactsService.updateContact(this.contact).then(() => {
-          this.$router.push({name: 'contacts-list'})
-        }).catch(error => {
-          console.error(error)
-        })
+        this.editContact()
       } else {
-        contactsService.addContact(this.contact).then(() => {
-          this.$router.push({name: 'contacts-list'})
-        }).catch(error => {
-          console.error(error)
-        })
+        this.createContact()
       }
+    },
+    editContact() {
+      contactsService.updateContact(this.contact).then(() => {
+        this.$router.push({name: 'contacts-list'})
+      }).catch(error => {
+        console.error(error)
+      })
+    },
+    createContact() {
+      contactsService.addContact(this.contact).then(() => {
+        this.$router.push({name: 'contacts-list'})
+      }).catch(error => {
+        console.error(error)
+      })
     }
   },
   created() {
