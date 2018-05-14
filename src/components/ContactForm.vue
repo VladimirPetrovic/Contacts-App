@@ -3,7 +3,7 @@
     <form class="col-6 mt-2" @submit.prevent="manageContact()">
       <div class="form-group">
         <label for="firstName">First Name</label>
-        <input type="text" v-model="contact.first_name" class="form-control" id="firstName">
+        <input type="text" v-model="contact.first_name" v-focus-on class="form-control" id="firstName">
       </div>
       <div class="form-group">
         <label for="lastName">Last Name</label>
