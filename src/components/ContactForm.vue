@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="col-6 mt-2" v-validate="validationRules">
+    <form class="col-6 mt-2" v-validate="validationConfig">
       <div class="form-group">
         <label for="firstName">First Name</label>
         <input
@@ -55,8 +55,13 @@ export default {
     },
     data() {
       return {
-        validationRules: {
-          email: ['required', 'email']
+        validationConfig: {
+          validationRules: {
+            email: ['required', 'email']
+          },
+          submitCallback: () => {
+            this.manageContact()
+          }
         }
       }
     }

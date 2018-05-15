@@ -1,25 +1,26 @@
+import validator from 'validator'
+
 const RULES = {
   REQUIRED: 'required',
   NUMBER: 'number',
   EMAIL: 'email'
 }
 
-
 const MESSAGES_CLASS_NAME = 'validator-messages'
 
-const removeMessageErrorElement = (element) => {
-  let oldMessageElement = element.querySelector(`#${MESSAGES_CLASS_NAME}`)
+const removeMessageErrorElements = (element) => {
+  let oldMessageElements = element.querySelectorAll(`.${MESSAGES_CLASS_NAME}`)
 
-  if (oldMessageElement) {
-    oldMessageElement.remove()
-  }
+  oldMessageElements.forEach(element => {
+    element.remove()
+  });
 }
 
-const addMessageErrorElement = (element, key) => {
+const showMessageErrorElement = (element, message) => {
   let messageElement = document.createElement('div')
-  messageElement.id = MESSAGES_CLASS_NAME
 
-  messageElement.innerHTML = `${key.toUpperCase()} is requiered`
+  messageElement.classList.add(MESSAGES_CLASS_NAME)
+  messageElement.innerHTML = message
   element.appendChild(messageElement)
 }
 
@@ -33,10 +34,13 @@ const MyDirectives = {
 
     Vue.directive('validate', {
       inserted: function (element, binding) {
-        let validationRules = binding.value
+        let validationConfig = binding.value
+        let validationRules = validationConfig.validationRules
 
         element.addEventListener('submit', (event) => {
+          let errorCounter = 0
           event.preventDefault()
+          removeMessageErrorElements(element)
 
           Object.keys(validationRules).forEach(key => {
             let input = element.querySelector(`#${key}`)
@@ -46,14 +50,22 @@ const MyDirectives = {
                 `Input element for validation rule ${key} not found!`)
             }
 
-            console.log()
-            if (validationRules[key].indexOf(RULES.REQUIRED) > -1 && !input.value.length) {
-              removeMessageErrorElement(element)
-              addMessageErrorElement(element, key)
-            } else {
-              removeMessageErrorElement(element)
+            if (validationRules[key].indexOf(RULES.EMAIL) > -1 && !validator.isEmail(input.value)) {
+              errorCounter++
+              let message = `This field must be email`
+              showMessageErrorElement(element, message)
             }
-          });
+
+            if (validationRules[key].indexOf(RULES.REQUIRED) > -1 && !input.value.length) {
+              errorCounter++
+              let message = `${key.toUpperCase()} is required`
+              showMessageErrorElement(element, message)
+            }
+          })
+
+          if (errorCounter === 0) {
+            validationConfig.submitCallback()
+          }
         })
       }
     })
