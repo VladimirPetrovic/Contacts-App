@@ -4,6 +4,7 @@ import MyDirectives from './plugins/MyDirectives'
 import App from './App.vue';
 import Contacts from './pages/Contacts.vue';
 import AddContact from './pages/AddContact.vue';
+import Login from './pages/Login.vue';
 
 Vue.config.productionTip = false;
 
@@ -11,7 +12,7 @@ Vue.use(VueRouter);
 Vue.use(MyDirectives)
 
 const routes = [
-  { path: '/', redirect: '/contacts' },
+  { path: '/login', component: Login, name: 'login' },
   { path: '/contacts', component: Contacts, name: 'contacts-list' },
   { path: '/add-contact', component: AddContact, name: 'add-contact'},
   { path: '/add-contact/:id', component: AddContact, name: 'edit-contact'},

@@ -33,7 +33,7 @@
         <label for="number">Number</label>
         <input
           name="number"
-          type="number"
+          type="text"
           v-model="contact.number"
           class="form-control"
           id="number">
